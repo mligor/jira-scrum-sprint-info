@@ -5,26 +5,6 @@ type jiraClient struct {
 	token string
 }
 
-func (c *jiraClient) getAllIssuesFromSprint(sprintID int, storyPointFiled string) (issues []issue, err error) {
-
-	step := 50
-	start := 0
-
-	for {
-		var r IssueResponse
-		r, err = c.getIssuesFromSprint(sprintID, start, step, storyPointFiled)
-		if err != nil {
-			return
-		}
-		issues = append(issues, r.Issues...)
-		if r.Total <= r.StartAt+r.MaxResults {
-			break
-		}
-		start += step
-	}
-	return
-}
-
 func (c *jiraClient) GetSprintInfo(sprintID int) (sprintInfo SprintInfo, err error) {
 
 	sprintInfo, err = c.getSprintInfoFromJira(sprintID)

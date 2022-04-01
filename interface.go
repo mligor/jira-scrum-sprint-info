@@ -1,6 +1,7 @@
 package jirascrumsprintinfo
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -21,6 +22,31 @@ type SprintInfo struct {
 	State        string         `json:"state,omitempty"`
 	StoryPoint   StoryPointInfo `json:"story_point,omitempty"`
 	BoardID      int            `json:"originBoardId,omitempty"`
+}
+
+func (s StoryPointInfo) String() string {
+
+	return fmt.Sprintf("Comp-Init: %.2f, Comp: %.2f, Not-Comp-Init: %.2f, Not-Comp: %.2f, All: %.2f", s.CompletedIssuesInitialEstimate, s.CompletedIssuesEstimate, s.IssuesNotCompletedInitialEstimate, s.IssuesNotCompletedEstimate, s.AllIssuesEstimate)
+}
+
+func (s SprintInfo) String() string {
+
+	const timeFormat = "2006-01-02 15:04:05"
+	start := " ----------------- "
+	end := " ----------------- "
+	complete := " ----------------- "
+
+	if s.StartDate != nil {
+		start = s.StartDate.Format(timeFormat)
+	}
+	if s.EndDate != nil {
+		end = s.EndDate.Format(timeFormat)
+	}
+	if s.CompleteDate != nil {
+		complete = s.CompleteDate.Format(timeFormat)
+	}
+
+	return fmt.Sprintf("Sprint: %d (%s) - Timeline: %v - %v (%v) - StoryPoints: (%v) - '%s'", s.ID, s.State, start, end, complete, s.StoryPoint, s.Name)
 }
 
 type JiraClient interface {

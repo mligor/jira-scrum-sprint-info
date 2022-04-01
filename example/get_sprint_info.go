@@ -13,11 +13,28 @@ func main() {
 
 	client := jirascrumsprintinfo.NewClient(jiraURL, jiraToken)
 
-	sprintInfo, err := client.GetSprintInfo(862) // S107
-	if err != nil {
-		panic(err)
+	sprints := []int{
+		728, // S100
+		746, // S101
+		784, // S102
+		798, // S103
+		812, // S104
+		824, // S105
+		839, // S106
+		862, // S107
+		865, // S108
+		881, // S109
+		897, // S110
+		911, // S111
 	}
 
-	fmt.Printf("%+v", sprintInfo)
+	for _, s := range sprints {
+		sprintInfo, err := client.GetSprintInfo(s) // S107
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Println(sprintInfo)
+	}
 
 }

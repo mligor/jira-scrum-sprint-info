@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
+	"path"
 )
 
 type issue struct {
@@ -23,7 +23,11 @@ type IssueResponse struct {
 
 // API: https://docs.atlassian.com/jira-software/REST/7.3.1/
 
-func (c *jiraClient) getDataFromJira(requestURL string, queryParams map[string]string, data interface{}) (err error) {
+func (c *jiraClient) getDataFromJira(namepoint string, queryParams map[string]string, data interface{}) (err error) {
+
+	u, err := url.Parse(c.url)
+	u.Path = path.Join(u.Path, namepoint)
+	requestURL := u.String()
 
 	if len(queryParams) > 0 {
 		var urlA *url.URL
@@ -56,33 +60,5 @@ func (c *jiraClient) getDataFromJira(requestURL string, queryParams map[string]s
 	defer resp.Body.Close()
 	err = json.NewDecoder(resp.Body).Decode(&data)
 
-	return
-}
-
-func (c *jiraClient) getIssuesFromSprint(sprintID int, startAt int, maxResults int, storyPointFiled string) (issueResponse IssueResponse, err error) {
-
-	requestURL := fmt.Sprintf("%s/rest/agile/1.0/sprint/%d/issue", c.url, sprintID)
-
-	err = c.getDataFromJira(requestURL, map[string]string{
-		"startAt":    strconv.Itoa(startAt),
-		"maxResults": strconv.Itoa(maxResults),
-		"fields":     storyPointFiled,
-	}, &issueResponse)
-
-	if err != nil {
-		return
-	}
-	return
-}
-
-func (c *jiraClient) getSprintInfoFromJira(sprintID int) (sprintInfo SprintInfo, err error) {
-
-	requestURL := fmt.Sprintf("%s/rest/agile/1.0/sprint/%d", c.url, sprintID)
-
-	err = c.getDataFromJira(requestURL, nil, &sprintInfo)
-
-	if err != nil {
-		return
-	}
 	return
 }

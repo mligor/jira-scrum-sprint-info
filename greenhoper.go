@@ -1,7 +1,6 @@
 package jirascrumsprintinfo
 
 import (
-	"fmt"
 	"strconv"
 )
 
@@ -24,12 +23,9 @@ type sprintReportSPValue struct {
 
 func (c *jiraClient) getSprintReport(boardID int, sprinID int) (report sprintReport, err error) {
 
-	requestURL := fmt.Sprintf("%s/rest/greenhopper/1.0/rapid/charts/sprintreport", c.url)
-
-	err = c.getDataFromJira(requestURL, map[string]string{
+	err = c.getDataFromJira("/rest/greenhopper/1.0/rapid/charts/sprintreport", map[string]string{
 		"rapidViewId": strconv.Itoa(boardID),
 		"sprintId":    strconv.Itoa(sprinID),
 	}, &report)
-
 	return
 }
