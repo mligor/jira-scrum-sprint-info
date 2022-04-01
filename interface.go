@@ -6,11 +6,11 @@ import (
 )
 
 type StoryPointInfo struct {
-	CompletedIssuesInitialEstimate    float64 `json:"completed_issues_initial_estimate,omitempty"`
-	CompletedIssuesEstimate           float64 `json:"completed_issues_estimate,omitempty"`
-	IssuesNotCompletedInitialEstimate float64 `json:"issues_not_completed_initial_estimate,omitempty"`
-	IssuesNotCompletedEstimate        float64 `json:"issues_not_completed_estimate,omitempty"`
-	AllIssuesEstimate                 float64 `json:"all_issues_estimate,omitempty"`
+	CompletedIssuesInitialEstimate    float64 `json:"completed_issues_initial_estimate"`
+	CompletedIssuesEstimate           float64 `json:"completed_issues_estimate"`
+	IssuesNotCompletedInitialEstimate float64 `json:"issues_not_completed_initial_estimate"`
+	IssuesNotCompletedEstimate        float64 `json:"issues_not_completed_estimate"`
+	AllIssuesEstimate                 float64 `json:"all_issues_estimate"`
 }
 
 type SprintInfo struct {
